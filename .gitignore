@@ -1,2 +1,5 @@
-.DS_Store
+/logs/
+
 pytorch.sif
+.DS_Store
+__pycache__
