@@ -39,6 +39,8 @@ class DQNLitModule(LightningModule):
 
     def __init__(
         self,
+        net: torch.nn.Module, #モデル(追加)
+        optimizer_namelist: List, #optimizerの名前のリスト（追加）
         batch_size: int = 16,
         lr: float = 1e-2,
         env: str = "CartPole-v0",
@@ -175,9 +177,19 @@ class DQNLitModule(LightningModule):
         return loss
 
     def configure_optimizers(self) -> List[Optimizer]:
-        """Initialize Adam optimizer."""
-        optimizer = Adam(self.net.parameters(), lr=self.hparams.lr)
-        return optimizer
+        # """Initialize Adam optimizer."""
+        # optimizer = Adam(self.net.parameters(), lr=self.hparams.lr)
+        # return optimizer
+    
+        optimizer_list = []
+        for optimizer_name in self.hparams.optimizer_namelist:
+            if optimizer_name == "Adam":
+                """Initialize Adam optimizer."""
+                optimizer = Adam(self.net.parameters(), lr=self.hparams.lr)
+                optimizer_list.append(optimizer)
+        
+        return optimizer_list
+
 
     def __dataloader(self) -> DataLoader:
         """Initialize the Replay Buffer dataset used for retrieving experiences."""

@@ -1,0 +1,76 @@
+# @package _global_
+
+batch_size: 16
+
+optimizer_namelist: ["Adam"]
+lr: 0.001
+weight_decay: 0.0005
+
+gamma: 0.99
+sync_rate: 10
+replay_size: 1000
+warm_start_size: 1000
+eps_last_frame: 1000
+eps_start: 1.0
+eps_end: 0.01
+episode_length: 200
+warm_start_steps: 1000
+
+
+#環境に関して(QNetの入出力数になる)
+env: "CartPole-v0"
+state_size: 4 #状態数(QNetの入力次元数)
+action_size: 2 #各状態の行動数(QNetの出力次元数)
+# state_size: "???" #状態数(QNetの入力次元数)
+# action_size: "???" #各状態の行動数(QNetの出力次元数)
+
+
+# specify here default training configuration
+defaults:
+  - _self_ #_self_ はhydraのconfig全体におけるこのファイル(main.yaml)内の設定を記載する位置を設定. 先頭に置くと, 他のファイルよりも前にこのファイルの内容が記述される.
+  # - datamodule: dqn.yaml
+  - model: dqn.yaml
+  # - callbacks: default.yaml
+  # - logger: null # set logger here or use command line (e.g. `python train.py logger=tensorboard`)
+  - trainer: default.yaml
+  # - log_dir: default.yaml
+
+  # # experiment configs allow for version control of specific configurations
+  # # e.g. best hyperparameters for each combination of model and datamodule
+  # - experiment: null
+
+  # # debugging config (enable through command line, e.g. `python train.py debug=default)
+  # - debug: null
+
+  # # config for hyperparameter optimization
+  # - hparams_search: null
+
+  # # optional local config for machine/user specific settings
+  # # it's optional since it doesn't need to exist and is excluded from version control
+  # - optional local: default.yaml
+
+  # # enable color logging
+  # - override hydra/hydra_logging: colorlog
+  # - override hydra/job_logging: colorlog
+
+
+
+# path to original working directory
+# hydra hijacks working directory by changing it to the new log directory
+original_work_dir: ${hydra:runtime.cwd}
+
+# set False to skip model training
+do_train: True
+
+# set False to skip model predicting, using best model weights achieved during training
+do_predict: False
+
+# seed for random number generators in pytorch, numpy and python.random
+seed: null
+
+# default name for the experiment, determines logging folder path
+# (you can overwrite this name in experiment configs)
+name: "default"
+
+
+
