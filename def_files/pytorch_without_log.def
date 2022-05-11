@@ -21,9 +21,3 @@ From: nvcr.io/nvidia/pytorch:21.06-py3
     pip install pygame #2.1.2
     pip install gym #0.7.4
     pip install wandb
-
-    # 以下のは入れるとエラーが出た.
-    #   #assert mdl is not None / AssertionError
-    #   #ImportError: cannot import name 'OrderedDict' from 'typing_extensions' (/home0/hatar/.local/lib/python3.8/site-packages/typing_extensions.py)
-    #pip install omegaconf -U
-    #pip install rich -U
