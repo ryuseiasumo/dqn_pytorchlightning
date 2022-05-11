@@ -1,4 +1,5 @@
 /logs/
+/outputs/
 
 pytorch.sif
 .DS_Store
