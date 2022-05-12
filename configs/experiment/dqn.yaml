@@ -1,0 +1,16 @@
+_target_: src.dqn_lightning_module.DQNLitModule
+optimizer_namelist: ${optimizer_namelist}
+
+batch_size: ${batch_size}
+lr: ${lr}
+# weight_decay: ${weight_decay}
+env: ${env}
+gamma: ${gamma}
+sync_rate: ${sync_rate}
+replay_size: ${replay_size}
+warm_start_size: ${warm_start_size}
+eps_last_frame: ${eps_last_frame}
+eps_start: ${eps_start}
+eps_end: ${eps_end}
+episode_length: ${episode_length}
+warm_start_steps: ${warm_start_steps}

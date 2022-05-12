@@ -7,7 +7,7 @@ accelerator: "auto"
 devices: [0,1,2]
 # devices: "???" # 使用するGPUを実行時に動的に得る場合はこっち
 
-# strategy: "ddp"  #DDP処理したい場合は更に追加
+strategy: "ddp"  #DDP処理したい場合は更に追加
 # num_nodes: 1
 
 min_epochs: 1

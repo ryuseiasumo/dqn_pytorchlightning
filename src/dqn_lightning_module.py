@@ -1,6 +1,7 @@
 import os
 from collections import OrderedDict
 from typing import Iterator, Any, List, Tuple
+import copy
 
 import gym
 import torch
@@ -39,7 +40,8 @@ class DQNLitModule(LightningModule):
 
     def __init__(
         self,
-        net: torch.nn.Module, #モデル(追加)
+        q_net: torch.nn.Module,
+        target_net: torch.nn.Module,
         optimizer_namelist: List, #optimizerの名前のリスト（追加）
         batch_size: int = 16,
         lr: float = 1e-2,
@@ -70,14 +72,13 @@ class DQNLitModule(LightningModule):
             warm_start_steps: max episode reward in the environment
         """
         super().__init__()
-        self.save_hyperparameters()
+        self.save_hyperparameters(logger=False)
 
         self.env = gym.make(self.hparams.env)
-        obs_size = self.env.observation_space.shape[0]
-        n_actions = self.env.action_space.n
         
-        self.net = QNet(input_size = obs_size, output_size = n_actions)
-        self.target_net = QNet(input_size = obs_size, output_size = n_actions)
+        self.net = self.hparams.q_net
+        self.target_net = self.hparams.target_net
+        
 
         self.buffer = ReplayBuffer(self.hparams.replay_size)
         self.agent = Agent(self.env, self.buffer)
@@ -175,22 +176,14 @@ class DQNLitModule(LightningModule):
         self.log("steps", self.global_step, logger=False, prog_bar=True)
 
         return loss
-
-    # def training_step_end(self, step_output: List[Any]):
-    #     # 
-    #     pass
+        # return {"loss": loss}
     
-    def training_step_end(self, training_step_outputs: List[Any]):
-        print(training_step_outputs)
-        import pdb;pdb.set_trace()
-        # `outputs` is a list of dicts returned from `training_step()`
-        return {'loss': training_step_outputs['loss'].sum()}
-
-    def configure_optimizers(self) -> List[Optimizer]:
-        # """Initialize Adam optimizer."""
-        # optimizer = Adam(self.net.parameters(), lr=self.hparams.lr)
-        # return optimizer
+    # DP, DDP2を用いる際には定義が必要
+    def training_step_end(self, step_output: List[Any]):
+        # 
+        pass 
     
+    def configure_optimizers(self) -> List[Optimizer]:    
         optimizer_list = []
         for optimizer_name in self.hparams.optimizer_namelist:
             if optimizer_name == "Adam":
