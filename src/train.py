@@ -46,6 +46,7 @@ def train(config: DictConfig) -> Optional[float]:
     model: LightningModule = hydra.utils.instantiate(config.model) # デフォルトは, model = DQNLitModule()
     # model = DQNLitModule()
 
+    print(config.original_work_dir)
 
     trainer: Trainer = hydra.utils.instantiate(
         config.trainer, logger=CSVLogger(save_dir = config.original_work_dir + "/logs/"),

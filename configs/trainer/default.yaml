@@ -3,8 +3,8 @@ _target_: pytorch_lightning.Trainer
 
 # マルチGPU処理にするか
 accelerator: "auto"
-gpus: 1
-# devices: 1
+# gpus: 1
+devices: [0,1,2]
 # devices: "???" # 使用するGPUを実行時に動的に得る場合はこっち
 
 # strategy: "ddp"  #DDP処理したい場合は更に追加

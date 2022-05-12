@@ -1,4 +1,0 @@
-[2022-05-11 21:33:03,716][pytorch_lightning.utilities.rank_zero][INFO] - GPU available: True, used: True
-[2022-05-11 21:33:03,717][pytorch_lightning.utilities.rank_zero][INFO] - TPU available: False, using: 0 TPU cores
-[2022-05-11 21:33:03,717][pytorch_lightning.utilities.rank_zero][INFO] - IPU available: False, using: 0 IPUs
-[2022-05-11 21:33:03,717][pytorch_lightning.utilities.rank_zero][INFO] - HPU available: False, using: 0 HPUs

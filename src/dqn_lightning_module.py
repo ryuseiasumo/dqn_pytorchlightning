@@ -1,6 +1,6 @@
 import os
 from collections import OrderedDict
-from typing import Iterator, List, Tuple
+from typing import Iterator, Any, List, Tuple
 
 import gym
 import torch
@@ -175,6 +175,16 @@ class DQNLitModule(LightningModule):
         self.log("steps", self.global_step, logger=False, prog_bar=True)
 
         return loss
+
+    # def training_step_end(self, step_output: List[Any]):
+    #     # 
+    #     pass
+    
+    def training_step_end(self, training_step_outputs: List[Any]):
+        print(training_step_outputs)
+        import pdb;pdb.set_trace()
+        # `outputs` is a list of dicts returned from `training_step()`
+        return {'loss': training_step_outputs['loss'].sum()}
 
     def configure_optimizers(self) -> List[Optimizer]:
         # """Initialize Adam optimizer."""
