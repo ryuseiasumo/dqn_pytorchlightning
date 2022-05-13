@@ -5,7 +5,11 @@ from typing import List, Optional
 import hydra
 from omegaconf import DictConfig
 
-# import torch
+import os
+from typing import List
+
+from pytorch_lightning import LightningModule,Trainer, seed_everything
+from pytorch_lightning.loggers import CSVLogger
 # from pytorch_lightning import (
 #     Callback,
 #     LightningDataModule,
@@ -14,13 +18,6 @@ from omegaconf import DictConfig
 #     seed_everything,
 # )
 # from pytorch_lightning.loggers import LightningLoggerBase
-
-import os
-from typing import List
-
-import torch
-from pytorch_lightning import LightningModule,Trainer, seed_everything
-from pytorch_lightning.loggers import CSVLogger
 
 PATH_DATASETS = os.environ.get("PATH_DATASETS", ".")
 
@@ -46,11 +43,10 @@ def train(config: DictConfig) -> Optional[float]:
     q_net: QNet = hydra.utils.instantiate(config.model)
     target_net: QNet = hydra.utils.instantiate(config.model)
     
-    model: LightningModule = hydra.utils.instantiate(config.experiment, q_net = q_net, target_net = target_net)
+    model: LightningModule = hydra.utils.instantiate(config.lightning_module, q_net = q_net, target_net = target_net)
 
     trainer: Trainer = hydra.utils.instantiate(
-        config.trainer, logger=CSVLogger(save_dir = config.original_work_dir + "/logs/"),
-        # config.trainer, logger=CSVLogger(save_dir = "logs/")
+        config.trainer, logger=CSVLogger(save_dir = "logs/")
     )
     
     trainer.fit(model)

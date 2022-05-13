@@ -1,6 +1,7 @@
 _target_: src.dqn_lightning_module.DQNLitModule
 optimizer_namelist: ${optimizer_namelist}
-
+q_net: "???"
+target_net: "???"
 batch_size: ${batch_size}
 lr: ${lr}
 # weight_decay: ${weight_decay}

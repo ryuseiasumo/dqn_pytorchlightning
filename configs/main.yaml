@@ -29,12 +29,12 @@ action_size: 2 #各状態の行動数(QNetの出力次元数)
 defaults:
   - _self_ #_self_ はhydraのconfig全体におけるこのファイル(main.yaml)内の設定を記載する位置を設定. 先頭に置くと, 他のファイルよりも前にこのファイルの内容が記述される.
   # - datamodule: dqn.yaml
-  - experiment: dqn.yaml
+  - lightning_module: dqn.yaml
   - model: dqn.yaml
   # - callbacks: default.yaml
   # - logger: null # set logger here or use command line (e.g. `python train.py logger=tensorboard`)
   - trainer: default.yaml
-  # - log_dir: default.yaml
+  - log_dir: default.yaml
 
   # # experiment configs allow for version control of specific configurations
   # # e.g. best hyperparameters for each combination of model and datamodule

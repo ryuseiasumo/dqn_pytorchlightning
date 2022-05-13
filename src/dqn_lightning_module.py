@@ -79,7 +79,7 @@ class DQNLitModule(LightningModule):
         self.net = self.hparams.q_net
         self.target_net = self.hparams.target_net
         
-
+        self.num_workers = os.cpu_count() ##並列に使用するcpuのユニット数(非負, kir01:16, kir03:12, kir04:8.)
         self.buffer = ReplayBuffer(self.hparams.replay_size)
         self.agent = Agent(self.env, self.buffer)
         self.total_reward = 0
@@ -180,7 +180,7 @@ class DQNLitModule(LightningModule):
     
     # DP, DDP2を用いる際には定義が必要
     def training_step_end(self, step_output: List[Any]):
-        # 
+        # print(len(step_output))
         pass 
     
     def configure_optimizers(self) -> List[Optimizer]:    
@@ -200,6 +200,8 @@ class DQNLitModule(LightningModule):
         dataloader = DataLoader(
             dataset=dataset,
             batch_size=self.hparams.batch_size,
+            # shuffle=True, #shuffleは存在しないの？
+            num_workers=self.num_workers,
         )
         return dataloader
 
