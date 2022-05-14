@@ -200,7 +200,7 @@ class DQNLitModule(LightningModule):
         dataloader = DataLoader(
             dataset=dataset,
             batch_size=self.hparams.batch_size,
-            # shuffle=True, #shuffleは存在しないの？
+            # shuffle=True, #IterableDatasetにはshuffleは存在しない
             num_workers=self.num_workers,
         )
         return dataloader

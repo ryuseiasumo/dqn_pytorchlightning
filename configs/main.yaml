@@ -21,8 +21,6 @@ warm_start_steps: 1000
 env: "CartPole-v0"
 state_size: 4 #状態数(QNetの入力次元数)
 action_size: 2 #各状態の行動数(QNetの出力次元数)
-# state_size: "???" #状態数(QNetの入力次元数)
-# action_size: "???" #各状態の行動数(QNetの出力次元数)
 
 
 # specify here default training configuration
