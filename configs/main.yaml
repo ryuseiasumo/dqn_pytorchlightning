@@ -32,16 +32,13 @@ defaults:
   - lightning_module: dqn.yaml
   - model: dqn.yaml
   # - callbacks: default.yaml
-  # - logger: null # set logger here or use command line (e.g. `python train.py logger=tensorboard`)
+  - logger: mlflow.yaml # set logger here or use command line (e.g. `python train.py logger=tensorboard`)
   - trainer: default.yaml
   - log_dir: default.yaml
 
   # # experiment configs allow for version control of specific configurations
   # # e.g. best hyperparameters for each combination of model and datamodule
   # - experiment: null
-
-  # # debugging config (enable through command line, e.g. `python train.py debug=default)
-  # - debug: null
 
   # # config for hyperparameter optimization
   # - hparams_search: null

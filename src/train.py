@@ -17,7 +17,7 @@ from pytorch_lightning.loggers import CSVLogger
 #     Trainer,
 #     seed_everything,
 # )
-# from pytorch_lightning.loggers import LightningLoggerBase
+from pytorch_lightning.loggers import LightningLoggerBase
 
 PATH_DATASETS = os.environ.get("PATH_DATASETS", ".")
 
@@ -45,8 +45,16 @@ def train(config: DictConfig) -> Optional[float]:
     
     model: LightningModule = hydra.utils.instantiate(config.lightning_module, q_net = q_net, target_net = target_net)
 
+    # Init lightning loggers
+    logger: List[LightningLoggerBase] = []
+    if "logger" in config:
+        for _, lg_conf in config.logger.items():
+            if "_target_" in lg_conf:
+                logger.append(hydra.utils.instantiate(lg_conf))
+
+
     trainer: Trainer = hydra.utils.instantiate(
-        config.trainer, logger=CSVLogger(save_dir = "logs/")
+        config.trainer, logger=logger
     )
     
     trainer.fit(model)

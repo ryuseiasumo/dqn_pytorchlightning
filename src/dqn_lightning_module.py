@@ -72,14 +72,14 @@ class DQNLitModule(LightningModule):
             warm_start_steps: max episode reward in the environment
         """
         super().__init__()
-        self.save_hyperparameters(logger=False)
-
+        # self.save_hyperparameters(logger=False, ignore=['q_net', 'target_net']) #loggerを設定していない場合
+        self.save_hyperparameters(ignore=['q_net', 'target_net'])
+        self.net = q_net
+        self.target_net = target_net
+        
         self.env = gym.make(self.hparams.env)
         
-        self.net = self.hparams.q_net
-        self.target_net = self.hparams.target_net
-        
-        self.num_workers = os.cpu_count() ##並列に使用するcpuのユニット数(非負, kir01:16, kir03:12, kir04:8.)
+        self.num_workers = os.cpu_count() ##並列に使用するcpuのユニット数
         self.buffer = ReplayBuffer(self.hparams.replay_size)
         self.agent = Agent(self.env, self.buffer)
         self.total_reward = 0
